@@ -33,7 +33,7 @@ def main(k, nSegments, useDistance):
             length = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
             #Create a number of segments for each video
             for i in range(numSegments):
-                start = random.randint(0,length - frameCount)
+                start = random.randint(0,length - (frameCount-1))
                 segments.append([vid, start, frameCount])
         return segments
 

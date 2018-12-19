@@ -3,7 +3,8 @@ Michael Lombardo
 HSA-RNN - Thesis
 TVSum50 Dataset
 """
-def main():
+#newData, k(# frame per segments), nSegments, width, height
+def main(newData, k, nSegments, doDistance , width, height):
     import os
     import torch
     import random
@@ -21,7 +22,7 @@ def main():
     TVSum50 Dataloader
     """
     class TVSumDataset(Dataset):
-        def __init__(self, info, scores, segments, frameCount, transform=None):
+        def __init__(self, info, scores, segments, frameCount, transforms=None):
             """
             Args:
                 info: Video filenames.
@@ -33,7 +34,7 @@ def main():
             self.scores = scores
             self.segments = segments
             self.frameCount = frameCount
-            self.transform = transform
+            self.transforms = transforms
 
         def __len__(self):
             return len(self.segments)
@@ -42,22 +43,24 @@ def main():
             filename, framenum, nframes = self.segments[idx]
             fileScoreIdx = self.info.index(filename)
             segScores = self.scores[fileScoreIdx][framenum:framenum+nframes]
-
             segFrames = torch.load("tensors/" + str(filename) + str(framenum) + ".pt")
+
+            if self.transforms is not None:
+                segFrames = self.transforms(segFrames)
 
             return {'video': segFrames, 'scores': segScores}
 
     """
     Usage within main()
     """
-    #(k (Num frame per segments), nSegments, distance)
-    processVideoData.main(30, 20, False)
-    #(width, height)
-    videoToTensor.main(380, 240)
+    if newData:
+        processVideoData.main(k, nSegments, doDistance) #(k (Num frame per segments), nSegments, distance)
+        videoToTensor.main(width, height) #(width, height)
 
 
     print("\n~~~| readTVSum50.py Execution |~~~")
-    vidInfo, scores = readDataFiles.readScoresCSV('shotScores.csv')
+    #vidInfo, scores = readDataFiles.readScoresCSV('shotScores.csv')
+    vidInfo, scores = readDataFiles.readBoundaries('boundaries.csv')
     segments, fCount = readDataFiles.getSegments('videoData.csv')
     dataset = TVSumDataset(vidInfo, scores, segments, fCount)
 
@@ -87,8 +90,8 @@ def main():
     """
     data_train_loader = DataLoader(dataset, batch_size=4, shuffle=True)
     print("~~~| readTVSum50.py Complete |~~~\n")
-    return dataset
-    #return data_train_loader
+    #return dataset
+    return data_train_loader
 
 
     """ Visualize each batch

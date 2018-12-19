@@ -6,7 +6,8 @@ Sample python file for how to use TVSum Dataset when invoking for training / tes
 """
 
 import readTVSum50 as TVSumData
-tvSumDataset = TVSumData.main()
+import torchvision.models as models
 
-testItem = tvSumDataset[4]
-#print(testItem['video'].shape)
+#newData, k(# frame per segments), nSegments, Distance, width, height
+#tvSumDataset = TVSumData.main(True, 30, 20, False, 224, 224) #for dataset
+tvSumDataloader = TVSumData.main(False, 30, 20, False, 224, 224) #for dataloader
