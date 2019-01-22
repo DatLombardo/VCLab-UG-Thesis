@@ -4,7 +4,7 @@ Thesis
 Custom TVSum50 Dataset
 """
 
-def main():
+def main(filename):
     import os
     import torch
     import numpy as np
@@ -35,7 +35,7 @@ def main():
             return {'video': frames, 'scores': scores}
 
     print("\n~~~| Custom.py Execution |~~~")
-    segmentData = readDataFiles.readSegmentCSV('segments.csv')
+    segmentData = readDataFiles.readSegmentCSV(filename)
     dataset = CustomDataset(segmentData)
     print("Loaded dataset")
 

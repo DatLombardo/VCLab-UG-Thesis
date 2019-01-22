@@ -4,7 +4,7 @@ Thesis
 Custom Dataset Worker
 
 Execution is just simply running the program, generates a new set of data.
-Presets are: k:9, nSegments:1000, width:224, height:224.
+Presets are: k:9, nSegments:400, width:224, height:224.
 """
 
 import torch
@@ -15,7 +15,7 @@ import Custom as CustomDataset
 import torch.nn as nn
 import matplotlib.pyplot as plt
 from torch.autograd import Variable
-
+import datetime
 
 def getDataPoint(element, index):
     scores = []
@@ -152,7 +152,7 @@ vgg16_fcn.cuda()
 Using Cuda
 
 """
-
+print(datetime.datetime.now())
 model = MyModel(512*7*7, 256).cuda()
 
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
@@ -160,7 +160,6 @@ optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
 num_epochs = 1000
 for epoch in range(num_epochs):
     for batch_i, batch_data in enumerate(customDataloader):
-        print(batch_i)
         for i in range(len(batch_data['video'])):
             scoreList, frameNums, vidData, index = getDataPoint(batch_data, i)
             dataItem = parseVideoMatrix(vidData, frameNums)
@@ -185,8 +184,8 @@ for batch_i, data in enumerate(testDataloader):
         scoreList, frameNums, vidData, index = getDataPoint(data, i)
         dataItem = parseVideoMatrix(vidData, frameNums)
         testData.append([scoreList, dataItem])
-        print(dataItem.shape)
-        print(scoreList)
+        #print(dataItem.shape)
+        #print(scoreList)
     if batch_i == 1:
         break
 
@@ -204,4 +203,9 @@ for i in range(len(testData)):
         error = nn.functional.binary_cross_entropy(input=out, target=y, reduce=True).cuda()
         error.backward()
         optimizer.step()
+        print("Model Output:")
+        print(out)
+        print("Expected: ")
+        print(GT[j])
         print('item: ' + str(i+1) + '\n\tbatch: ' + str(j) + ', error: ' + str(error.item()))
+print(datetime.datetime.now())
