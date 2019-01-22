@@ -4,7 +4,7 @@ Thesis
 Custom Dataset Worker
 
 Execution is just simply running the program, generates a new set of data.
-Presets are: k:9, nSegments:400, width:224, height:224.
+Presets are: k:9, nSegments:1000, width:224, height:224.
 """
 
 import torch
@@ -15,7 +15,9 @@ import Custom as CustomDataset
 import torch.nn as nn
 import matplotlib.pyplot as plt
 from torch.autograd import Variable
+import csv
 import datetime
+
 
 def getDataPoint(element, index):
     scores = []
@@ -146,66 +148,77 @@ for param in vgg16.parameters():
 vgg16_fcn = vgg16.features
 vgg16_fcn.cuda()
 
+fileClear = open("results.csv", "w")
+fileClear.truncate()
+fileClear.close()
 
 
 """
 Using Cuda
 
 """
-print(datetime.datetime.now())
+
 model = MyModel(512*7*7, 256).cuda()
 
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
 
-num_epochs = 1000
-for epoch in range(num_epochs):
-    for batch_i, batch_data in enumerate(customDataloader):
-        for i in range(len(batch_data['video'])):
-            scoreList, frameNums, vidData, index = getDataPoint(batch_data, i)
+with open('results.csv', "w") as csv_file:
+    csv_file.truncate()
+    writer = csv.writer(csv_file)
+    time = datetime.datetime.now()
+    writer.writerow(str(time))
+
+    num_epochs = 500
+    for epoch in range(num_epochs):
+        if (epoch % 10 == 0):
+            print('epoch: ' + str(epoch))
+        for batch_i, batch_data in enumerate(customDataloader):
+            print('batch: ' + str(batch_i))
+            for i in range(len(batch_data['video'])):
+                scoreList, frameNums, vidData, index = getDataPoint(batch_data, i)
+                dataItem = parseVideoMatrix(vidData, frameNums)
+                data = [dataItem[0:4], dataItem[3:]]
+                #Ground Truth
+                GT = [np.squeeze(scoreList[0:4]), np.squeeze(scoreList[3:])]
+                for j in range(2):
+                    x = Variable(torch.tensor(data[j], dtype=torch.float32)).cuda()
+                    y = Variable(torch.tensor(GT[j], dtype=torch.float32)).cuda()
+                    optimizer.zero_grad()
+                    out = model(x)
+                    out = out.squeeze()
+                    error = nn.functional.binary_cross_entropy(input=out, target=y, reduce=True).cuda()
+                    error.backward()
+                    optimizer.step()
+                    if ((epoch) % 100 == 0) and (batch_i % 25 == 0):
+                        writer.writerow('item: ' + str(i+1) + ' epoch:' + str(epoch) + '\n\tbatch: ' + str(batch_i) + ', error: ' + str(error.item()))
+
+    testData = []
+    for batch_i, data in enumerate(testDataloader):
+        for i in range(len(data['video'])):
+            scoreList, frameNums, vidData, index = getDataPoint(data, i)
             dataItem = parseVideoMatrix(vidData, frameNums)
-            data = [dataItem[0:4], dataItem[3:]]
-            #Ground Truth
-            GT = [np.squeeze(scoreList[0:4]), np.squeeze(scoreList[3:])]
-            for j in range(2):
-                x = Variable(torch.tensor(data[j], dtype=torch.float32)).cuda()
-                y = Variable(torch.tensor(GT[j], dtype=torch.float32)).cuda()
-                optimizer.zero_grad()
-                out = model(x)
-                out = out.squeeze()
-                error = nn.functional.binary_cross_entropy(input=out, target=y, reduce=True).cuda()
-                error.backward()
-                optimizer.step()
-                if ((epoch) % 100 == 0) and (batch_i % 25 == 0):
-                    print('item: ' + str(i+1) + ' epoch:' + str(epoch) + '\n\tbatch: ' + str(batch_i) + ', error: ' + str(error.item()))
+            testData.append([scoreList, dataItem])
+            print(dataItem.shape)
+            print(scoreList)
+        if batch_i == 1:
+            break
 
-testData = []
-for batch_i, data in enumerate(testDataloader):
-    for i in range(len(data['video'])):
-        scoreList, frameNums, vidData, index = getDataPoint(data, i)
-        dataItem = parseVideoMatrix(vidData, frameNums)
-        testData.append([scoreList, dataItem])
-        #print(dataItem.shape)
-        #print(scoreList)
-    if batch_i == 1:
-        break
-
-for i in range(len(testData)):
-    #Within batchData - batchData[0]: score, batchData[1]:video data
-    data = [testData[i][1][0:4], testData[i][1][3:]]
-    #Ground Truth
-    GT = [np.squeeze(testData[i][0][0:4]), np.squeeze(testData[i][0][3:])]
-    for j in range(2):
-        x = Variable(torch.tensor(data[j], dtype=torch.float32)).cuda()
-        y = Variable(torch.tensor(GT[j], dtype=torch.float32)).cuda()
-        optimizer.zero_grad()
-        out = model(x)
-        out = out.squeeze()
-        error = nn.functional.binary_cross_entropy(input=out, target=y, reduce=True).cuda()
-        error.backward()
-        optimizer.step()
-        print("Model Output:")
-        print(out)
-        print("Expected: ")
-        print(GT[j])
-        print('item: ' + str(i+1) + '\n\tbatch: ' + str(j) + ', error: ' + str(error.item()))
-print(datetime.datetime.now())
+    for i in range(len(testData)):
+        #Within batchData - batchData[0]: score, batchData[1]:video data
+        data = [testData[i][1][0:4], testData[i][1][3:]]
+        #Ground Truth
+        GT = [np.squeeze(testData[i][0][0:4]), np.squeeze(testData[i][0][3:])]
+        for j in range(2):
+            x = Variable(torch.tensor(data[j], dtype=torch.float32)).cuda()
+            y = Variable(torch.tensor(GT[j], dtype=torch.float32)).cuda()
+            optimizer.zero_grad()
+            out = model(x)
+            out = out.squeeze()
+            error = nn.functional.binary_cross_entropy(input=out, target=y, reduce=True).cuda()
+            error.backward()
+            optimizer.step()
+            print('item: ' + str(i+1) + '\n\tbatch: ' + str(j) + ', error: ' + str(error.item()))
+            writer.writerow("---Results--")
+            writer.writerow('item: ' + str(i+1) + '\n\tbatch: ' + str(j) + ', error: ' + str(error.item()))
+    time = datetime.datetime.now()
+    writer.writerow(str(time))

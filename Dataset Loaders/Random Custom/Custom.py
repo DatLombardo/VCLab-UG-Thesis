@@ -33,7 +33,7 @@ def main(filename):
                 frames = self.transforms(frames)
 
             return {'video': frames, 'scores': scores}
-
+            
     print("\n~~~| Custom.py Execution |~~~")
     segmentData = readDataFiles.readSegmentCSV(filename)
     dataset = CustomDataset(segmentData)
