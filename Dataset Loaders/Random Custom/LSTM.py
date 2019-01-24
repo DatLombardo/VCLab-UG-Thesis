@@ -75,7 +75,7 @@ def accuracy(x,y):
         res = True
     except AssertionError as err:
         res = False
-        print (err)
+        print(err)
 
 
 """
@@ -148,10 +148,6 @@ for param in vgg16.parameters():
 vgg16_fcn = vgg16.features
 vgg16_fcn.cuda()
 
-fileClear = open("results.csv", "w")
-fileClear.truncate()
-fileClear.close()
-
 
 """
 Using Cuda
@@ -162,18 +158,18 @@ model = MyModel(512*7*7, 256).cuda()
 
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
 
-with open('results.csv', "w") as csv_file:
-    csv_file.truncate()
-    writer = csv.writer(csv_file)
-    time = datetime.datetime.now()
-    writer.writerow(str(time))
+enums = 0
+num_epochs = 200
 
-    num_epochs = 500
+with open('results.csv', "w") as tsv_file:
+    writer = csv.writer(tsv_file, delimiter='\t')
+    time = datetime.datetime.now()
+    writer.writerow([str(time)])
+    writer.writerow(["---Training Error--"])
     for epoch in range(num_epochs):
         if (epoch % 10 == 0):
             print('epoch: ' + str(epoch))
         for batch_i, batch_data in enumerate(customDataloader):
-            print('batch: ' + str(batch_i))
             for i in range(len(batch_data['video'])):
                 scoreList, frameNums, vidData, index = getDataPoint(batch_data, i)
                 dataItem = parseVideoMatrix(vidData, frameNums)
@@ -181,6 +177,7 @@ with open('results.csv', "w") as csv_file:
                 #Ground Truth
                 GT = [np.squeeze(scoreList[0:4]), np.squeeze(scoreList[3:])]
                 for j in range(2):
+                    enums += 1
                     x = Variable(torch.tensor(data[j], dtype=torch.float32)).cuda()
                     y = Variable(torch.tensor(GT[j], dtype=torch.float32)).cuda()
                     optimizer.zero_grad()
@@ -189,8 +186,9 @@ with open('results.csv', "w") as csv_file:
                     error = nn.functional.binary_cross_entropy(input=out, target=y, reduce=True).cuda()
                     error.backward()
                     optimizer.step()
-                    if ((epoch) % 100 == 0) and (batch_i % 25 == 0):
-                        writer.writerow('item: ' + str(i+1) + ' epoch:' + str(epoch) + '\n\tbatch: ' + str(batch_i) + ', error: ' + str(error.item()))
+                    if ((epoch) % 50 == 0) and (batch_i % 25 == 0):
+                        writer.writerow(['item: ' + str(i),'epoch: '+ str(epoch),'batch: ' + str(batch_i), ', error: ' + str(error.item())])
+                        #writer.writerow('item: ' + str(i+1) + ' epoch:' + str(epoch) + '\n\tbatch: ' + str(batch_i) + ', error: ' + str(error.item()))
 
     testData = []
     for batch_i, data in enumerate(testDataloader):
@@ -198,8 +196,8 @@ with open('results.csv', "w") as csv_file:
             scoreList, frameNums, vidData, index = getDataPoint(data, i)
             dataItem = parseVideoMatrix(vidData, frameNums)
             testData.append([scoreList, dataItem])
-            print(dataItem.shape)
-            print(scoreList)
+            #print(dataItem.shape)
+            #print(scoreList)
         if batch_i == 1:
             break
 
@@ -217,8 +215,10 @@ with open('results.csv', "w") as csv_file:
             error = nn.functional.binary_cross_entropy(input=out, target=y, reduce=True).cuda()
             error.backward()
             optimizer.step()
-            print('item: ' + str(i+1) + '\n\tbatch: ' + str(j) + ', error: ' + str(error.item()))
-            writer.writerow("---Results--")
-            writer.writerow('item: ' + str(i+1) + '\n\tbatch: ' + str(j) + ', error: ' + str(error.item()))
+            writer.writerow(["---Results--"])
+            #print('item: ' + str(i+1) + '\n\tbatch: ' + str(j) + ', error: ' + str(error.item()))
+            writer.writerow(['item: ' + str(i+1), 'batch: ' + str(j) , 'error: ' + str(error.item())])
+            #writer.writerow('item: ' + str(i+1) + '\n\tbatch: ' + str(j) + ', error: ' + str(error.item()))
     time = datetime.datetime.now()
-    writer.writerow(str(time))
+    writer.writerow([str(time)])
+    writer.writerow(['epochs: ' + str(num_epochs), 'enums: ' + str(enums)])
