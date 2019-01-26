@@ -1,0 +1,298 @@
+2019-01-23 23:14:19.259853
+---Training Error--
+batch: 0	epoch:0	error: 0.5507367253303528
+batch: 1	epoch:0	error: 0.4924911558628082
+batch: 0	epoch:100	error: 0.008309319615364075
+batch: 1	epoch:100	error: 0.10567767173051834
+---Results--
+item: 1	batch: 0	error: 0.381572961807251
+item: 1	batch: 1	error: 0.14163345098495483
+item: 2	batch: 0	error: 0.6880898475646973
+item: 2	batch: 1	error: 0.465022474527359
+item: 3	batch: 0	error: 0.4824317991733551
+item: 3	batch: 1	error: 0.39815402030944824
+item: 4	batch: 0	error: 0.6807994842529297
+item: 4	batch: 1	error: 0.5965163111686707
+item: 5	batch: 0	error: 0.7122442126274109
+item: 5	batch: 1	error: 0.48030510544776917
+item: 6	batch: 0	error: 0.37859585881233215
+item: 6	batch: 1	error: 0.1815814971923828
+item: 7	batch: 0	error: 0.619846522808075
+item: 7	batch: 1	error: 0.3230363428592682
+item: 8	batch: 0	error: 0.581086277961731
+item: 8	batch: 1	error: 0.33815324306488037
+2019-01-23 23:15:07.581264
+epochs: 101	enums: 202
+
+----------------------------------------------------
+
+
+2019-01-23 23:23:51.524883
+---Training Error--
+batch: 2	epoch:0	error: 0.6429765224456787
+batch: 2	epoch:0	error: 0.607922375202179
+batch: 7	epoch:0	error: 0.5964809656143188
+batch: 7	epoch:0	error: 0.4679673910140991
+batch: 8	epoch:0	error: 0.5139497518539429
+batch: 8	epoch:0	error: 0.544880211353302
+batch: 0	epoch:20	error: 0.011659246869385242
+batch: 0	epoch:20	error: 0.011817497201263905
+batch: 1	epoch:20	error: 0.016096577048301697
+batch: 1	epoch:20	error: 0.017037153244018555
+batch: 5	epoch:20	error: 0.008823340758681297
+batch: 5	epoch:20	error: 0.0079946955665946
+batch: 6	epoch:20	error: 0.012273306958377361
+batch: 6	epoch:20	error: 0.010167810134589672
+batch: 9	epoch:20	error: 0.005668997764587402
+batch: 9	epoch:20	error: 0.006156797055155039
+batch: 4	epoch:40	error: 0.0024035812821239233
+batch: 4	epoch:40	error: 0.0024753597099334
+batch: 5	epoch:40	error: 0.0034123389050364494
+batch: 5	epoch:40	error: 0.002927194582298398
+batch: 0	epoch:60	error: 0.0024909672793000937
+batch: 0	epoch:60	error: 0.002513382351025939
+batch: 8	epoch:60	error: 0.0019339550053700805
+batch: 8	epoch:60	error: 0.05303064361214638
+batch: 9	epoch:60	error: 0.0009185152594000101
+batch: 9	epoch:60	error: 0.0010485583916306496
+batch: 2	epoch:80	error: 0.0017258860170841217
+batch: 2	epoch:80	error: 0.0022142459638416767
+batch: 10	epoch:80	error: 0.0019930892158299685
+batch: 10	epoch:80	error: 0.007045311387628317
+batch: 0	epoch:100	error: 0.0012493915855884552
+batch: 0	epoch:100	error: 0.0012553659034892917
+batch: 7	epoch:100	error: 0.03001251630485058
+batch: 7	epoch:100	error: 0.005067929159849882
+batch: 8	epoch:100	error: 0.0010107142152264714
+batch: 8	epoch:100	error: 0.030255036428570747
+batch: 11	epoch:100	error: 0.00048213949776254594
+batch: 11	epoch:100	error: 0.000508301833178848
+
+---Results--
+item: 1	batch: 0	error: 0.02570008672773838
+item: 1	batch: 1	error: 0.016912614926695824
+item: 2	batch: 0	error: 0.7515364289283752
+item: 2	batch: 1	error: 0.20092032849788666
+item: 3	batch: 0	error: 0.034662045538425446
+item: 3	batch: 1	error: 0.045652836561203
+item: 4	batch: 0	error: 0.6681397557258606
+item: 4	batch: 1	error: 0.09172248840332031
+item: 5	batch: 0	error: 0.031207509338855743
+item: 5	batch: 1	error: 0.023107727989554405
+item: 6	batch: 0	error: 0.9465147852897644
+item: 6	batch: 1	error: 0.2540995180606842
+item: 7	batch: 0	error: 0.5690432190895081
+item: 7	batch: 1	error: 0.3850059509277344
+item: 8	batch: 0	error: 0.026164362207055092
+item: 8	batch: 1	error: 0.017070872709155083
+2019-01-23 23:33:00.508750
+epochs: 101	enums: 2424
+
+----------------------------------------------------
+
+
+2019-01-23 23:10:04.530457
+---Training Error--
+item: 0	epoch: 0	batch: 0	, error: 0.7765620350837708
+item: 0	epoch: 0	batch: 0	, error: 0.5175497531890869
+item: 1	epoch: 0	batch: 0	, error: 0.8588687777519226
+item: 1	epoch: 0	batch: 0	, error: 0.5179527401924133
+item: 2	epoch: 0	batch: 0	, error: 0.8391839861869812
+item: 2	epoch: 0	batch: 0	, error: 0.6412980556488037
+item: 3	epoch: 0	batch: 0	, error: 0.6369869112968445
+item: 3	epoch: 0	batch: 0	, error: 0.5190212726593018
+item: 0	epoch: 0	batch: 75	, error: 0.06173832342028618
+item: 0	epoch: 0	batch: 75	, error: 0.04869602993130684
+item: 1	epoch: 0	batch: 75	, error: 0.0344221256673336
+item: 1	epoch: 0	batch: 75	, error: 0.8172497153282166
+item: 2	epoch: 0	batch: 75	, error: 0.614703893661499
+item: 2	epoch: 0	batch: 75	, error: 0.5104109644889832
+item: 3	epoch: 0	batch: 75	, error: 0.07435625791549683
+item: 3	epoch: 0	batch: 75	, error: 0.06439363956451416
+item: 0	epoch: 50	batch: 25	, error: 3.511721160975867e-06
+item: 0	epoch: 50	batch: 25	, error: 6.482057415269082e-06
+item: 1	epoch: 50	batch: 25	, error: 0.00016828688967507333
+item: 1	epoch: 50	batch: 25	, error: 0.00013932716683484614
+item: 2	epoch: 50	batch: 25	, error: 0.0016278583789244294
+item: 2	epoch: 50	batch: 25	, error: 0.0007523168460465968
+item: 3	epoch: 50	batch: 25	, error: 8.950716619438026e-06
+item: 3	epoch: 50	batch: 25	, error: 8.026822797546629e-06
+item: 0	epoch: 50	batch: 50	, error: 7.274006929947063e-05
+item: 0	epoch: 50	batch: 50	, error: 0.00010785071208374575
+item: 1	epoch: 50	batch: 50	, error: 6.132676207926124e-05
+item: 1	epoch: 50	batch: 50	, error: 0.0005805630353279412
+item: 2	epoch: 50	batch: 50	, error: 0.0002306939713889733
+item: 2	epoch: 50	batch: 50	, error: 9.929860243573785e-05
+item: 3	epoch: 50	batch: 50	, error: 0.001122151268646121
+item: 3	epoch: 50	batch: 50	, error: 0.003050991101190448
+item: 0	epoch: 100	batch: 0	, error: 0.11682524532079697
+item: 0	epoch: 100	batch: 0	, error: 0.20661771297454834
+item: 1	epoch: 100	batch: 0	, error: 0.000965525337960571
+item: 1	epoch: 100	batch: 0	, error: 5.980896457913332e-05
+item: 2	epoch: 100	batch: 0	, error: 7.376132998615503e-06
+item: 2	epoch: 100	batch: 0	, error: 1.070909002010012e-05
+item: 3	epoch: 100	batch: 0	, error: 1.0937571460090112e-05
+item: 3	epoch: 100	batch: 0	, error: 0.0017111091874539852
+item: 0	epoch: 100	batch: 50	, error: 6.3231623244064394e-06
+item: 0	epoch: 100	batch: 50	, error: 4.71376870336826e-06
+item: 1	epoch: 100	batch: 50	, error: 0.0003373835061211139
+item: 1	epoch: 100	batch: 50	, error: 0.001283856574445963
+item: 2	epoch: 100	batch: 50	, error: 2.9664186513400637e-05
+item: 2	epoch: 100	batch: 50	, error: 0.002104784594848752
+item: 3	epoch: 100	batch: 50	, error: 0.0012936507118865848
+item: 3	epoch: 100	batch: 50	, error: 0.0013842802727594972
+item: 0	epoch: 150	batch: 0	, error: 7.942440788610838e-06
+item: 0	epoch: 150	batch: 0	, error: 7.346345228143036e-06
+item: 1	epoch: 150	batch: 0	, error: 2.801551454467699e-05
+item: 1	epoch: 150	batch: 0	, error: 4.460470790945692e-06
+item: 2	epoch: 150	batch: 0	, error: 1.0371345524617936e-05
+item: 2	epoch: 150	batch: 0	, error: 8.543436706531793e-06
+item: 3	epoch: 150	batch: 0	, error: 1.356034044874832e-05
+item: 3	epoch: 150	batch: 0	, error: 2.069830043183174e-05
+item: 0	epoch: 150	batch: 75	, error: 6.603966903639957e-05
+item: 0	epoch: 150	batch: 75	, error: 0.0034313492942601442
+item: 1	epoch: 150	batch: 75	, error: 5.524923108168878e-05
+item: 1	epoch: 150	batch: 75	, error: 0.0002579867432359606
+item: 2	epoch: 150	batch: 75	, error: 0.000268722913460806
+item: 2	epoch: 150	batch: 75	, error: 0.00032183105940930545
+item: 3	epoch: 150	batch: 75	, error: 0.0005822955281473696
+item: 3	epoch: 150	batch: 75	, error: 0.0007940664072521031
+---Results---
+item: 1	batch: 0	error: 1.4386944770812988
+item: 1	batch: 1	error: 0.6978392601013184
+item: 2	batch: 0	error: 0.10607407242059708
+item: 2	batch: 1	error: 2.6016845703125
+item: 3	batch: 0	error: 0.026566579937934875
+item: 3	batch: 1	error: 1.0456537008285522
+item: 4	batch: 0	error: 6.209038838278502e-05
+item: 4	batch: 1	error: 4.5857083023292944e-05
+item: 5	batch: 0	error: 0.009645386599004269
+item: 5	batch: 1	error: 0.005851989146322012
+item: 6	batch: 0	error: 1.5650800466537476
+item: 6	batch: 1	error: 0.7293464541435242
+item: 7	batch: 0	error: 0.000696796749252826
+item: 7	batch: 1	error: 1.9915293455123901
+item: 8	batch: 0	error: 0.00033365035778842866
+item: 8	batch: 1	error: 0.0034107130486518145
+2019-01-24 03:25:57.272522
+epochs: 200	enums: 160000
+
+----------------------------------------------------
+
+2019-01-24 19:56:45.440145
+---Training Error--
+item: 0	epoch: 0	batch: 0	, error: 0.7289097905158997
+item: 0	epoch: 0	batch: 0	, error: 0.7929399609565735
+item: 1	epoch: 0	batch: 0	, error: 0.7629340291023254
+item: 1	epoch: 0	batch: 0	, error: 0.5857740044593811
+item: 2	epoch: 0	batch: 0	, error: 0.7178418040275574
+item: 2	epoch: 0	batch: 0	, error: 0.5703791975975037
+item: 3	epoch: 0	batch: 0	, error: 0.6795628666877747
+item: 3	epoch: 0	batch: 0	, error: 0.5591749548912048
+item: 0	epoch: 0	batch: 25	, error: 0.08806147426366806
+item: 0	epoch: 0	batch: 25	, error: 0.0688011646270752
+item: 1	epoch: 0	batch: 25	, error: 0.09319138526916504
+item: 1	epoch: 0	batch: 25	, error: 0.08618927001953125
+item: 2	epoch: 0	batch: 25	, error: 0.11079344153404236
+item: 2	epoch: 0	batch: 25	, error: 0.08387762308120728
+item: 3	epoch: 0	batch: 25	, error: 0.08373644948005676
+item: 3	epoch: 0	batch: 25	, error: 0.0566582977771759
+item: 0	epoch: 0	batch: 50	, error: 0.0586407370865345
+item: 0	epoch: 0	batch: 50	, error: 0.06984061747789383
+item: 1	epoch: 0	batch: 50	, error: 0.09934435039758682
+item: 1	epoch: 0	batch: 50	, error: 0.08520689606666565
+item: 2	epoch: 0	batch: 50	, error: 0.07333537936210632
+item: 2	epoch: 0	batch: 50	, error: 0.05992479249835014
+item: 3	epoch: 0	batch: 50	, error: 0.07539764791727066
+item: 3	epoch: 0	batch: 50	, error: 0.07165268808603287
+item: 0	epoch: 0	batch: 75	, error: 0.12435230612754822
+item: 0	epoch: 0	batch: 75	, error: 0.09303488582372665
+item: 1	epoch: 0	batch: 75	, error: 0.0909871831536293
+item: 1	epoch: 0	batch: 75	, error: 0.07098495960235596
+item: 2	epoch: 0	batch: 75	, error: 0.0786084532737732
+item: 2	epoch: 0	batch: 75	, error: 0.06304705142974854
+item: 3	epoch: 0	batch: 75	, error: 0.07359164208173752
+item: 3	epoch: 0	batch: 75	, error: 0.05313964560627937
+item: 0	epoch: 50	batch: 0	, error: 0.001628176891244948
+item: 0	epoch: 50	batch: 0	, error: 0.007660930510610342
+item: 1	epoch: 50	batch: 0	, error: 0.02876855432987213
+item: 1	epoch: 50	batch: 0	, error: 0.002569208387285471
+item: 2	epoch: 50	batch: 0	, error: 6.454812682932243e-05
+item: 2	epoch: 50	batch: 0	, error: 0.009232677519321442
+item: 3	epoch: 50	batch: 0	, error: 7.594669568788959e-06
+item: 3	epoch: 50	batch: 0	, error: 2.2903492208570242e-05
+item: 0	epoch: 50	batch: 25	, error: 0.0005255803116597235
+item: 0	epoch: 50	batch: 25	, error: 0.1499558687210083
+item: 1	epoch: 50	batch: 25	, error: 2.250080342491856e-06
+item: 1	epoch: 50	batch: 25	, error: 5.140927896718495e-06
+item: 2	epoch: 50	batch: 25	, error: 1.3043648323218804e-05
+item: 2	epoch: 50	batch: 25	, error: 1.116112161980709e-05
+item: 3	epoch: 50	batch: 25	, error: 0.0007939450442790985
+item: 3	epoch: 50	batch: 25	, error: 0.008453655056655407
+item: 0	epoch: 50	batch: 50	, error: 1.7375095922034234e-05
+item: 0	epoch: 50	batch: 50	, error: 1.4066903531784192e-05
+item: 1	epoch: 50	batch: 50	, error: 0.00021751462190877646
+item: 1	epoch: 50	batch: 50	, error: 0.00019790255464613438
+item: 2	epoch: 50	batch: 50	, error: 2.3067501388140954e-05
+item: 2	epoch: 50	batch: 50	, error: 2.5729983462952077e-05
+item: 3	epoch: 50	batch: 50	, error: 0.002330166520550847
+item: 3	epoch: 50	batch: 50	, error: 0.0019233861239627004
+item: 0	epoch: 50	batch: 75	, error: 1.0719065357989166e-05
+item: 0	epoch: 50	batch: 75	, error: 1.0982253115798812e-05
+item: 1	epoch: 50	batch: 75	, error: 0.1423729509115219
+item: 1	epoch: 50	batch: 75	, error: 0.2136162519454956
+item: 2	epoch: 50	batch: 75	, error: 4.489421917241998e-05
+item: 2	epoch: 50	batch: 75	, error: 5.0065063987858593e-05
+item: 3	epoch: 50	batch: 75	, error: 3.182110594934784e-05
+item: 3	epoch: 50	batch: 75	, error: 0.003957110922783613
+item: 0	epoch: 100	batch: 0	, error: 1.932191707965103e-06
+item: 0	epoch: 100	batch: 0	, error: 1.5248903082465404e-06
+item: 1	epoch: 100	batch: 0	, error: 2.0772844436578453e-05
+item: 1	epoch: 100	batch: 0	, error: 0.00020876135386060923
+item: 2	epoch: 100	batch: 0	, error: 0.0012162333587184548
+item: 2	epoch: 100	batch: 0	, error: 0.0011325007071718574
+item: 3	epoch: 100	batch: 0	, error: 1.8725839936450939e-06
+item: 3	epoch: 100	batch: 0	, error: 2.1209373244346352e-06
+item: 0	epoch: 100	batch: 25	, error: 1.1424447620811407e-05
+item: 0	epoch: 100	batch: 25	, error: 0.0031653575133532286
+item: 1	epoch: 100	batch: 25	, error: 8.024816634133458e-05
+item: 1	epoch: 100	batch: 25	, error: 0.0018544355407357216
+item: 2	epoch: 100	batch: 25	, error: 1.3162715504222433e-06
+item: 2	epoch: 100	batch: 25	, error: 1.0182474170505884e-06
+item: 3	epoch: 100	batch: 25	, error: 2.900325671362225e-05
+item: 3	epoch: 100	batch: 25	, error: 2.5372217351105064e-05
+item: 0	epoch: 100	batch: 50	, error: 0.00045004472485743463
+item: 0	epoch: 100	batch: 50	, error: 4.5103264710633084e-05
+item: 1	epoch: 100	batch: 50	, error: 0.00013190312893129885
+item: 1	epoch: 100	batch: 50	, error: 6.866857438581064e-05
+item: 2	epoch: 100	batch: 50	, error: 0.0035246454644948244
+item: 2	epoch: 100	batch: 50	, error: 0.004518358968198299
+item: 3	epoch: 100	batch: 50	, error: 3.0050759960431606e-06
+item: 3	epoch: 100	batch: 50	, error: 0.000663664482999593
+item: 0	epoch: 100	batch: 75	, error: 0.00012607395183295012
+item: 0	epoch: 100	batch: 75	, error: 0.001243870472535491
+item: 1	epoch: 100	batch: 75	, error: 0.0007236774545162916
+item: 1	epoch: 100	batch: 75	, error: 0.00016454565047752112
+item: 2	epoch: 100	batch: 75	, error: 5.116068564348097e-07
+item: 2	epoch: 100	batch: 75	, error: 5.265080176286574e-07
+item: 3	epoch: 100	batch: 75	, error: 0.0009862357983365655
+item: 3	epoch: 100	batch: 75	, error: 0.0010090511059388518
+---Results---
+item: 1	batch: 0	error: 8.150719804689288e-05
+item: 1	batch: 1	error: 0.0001167132068076171
+item: 2	batch: 0	error: 0.2636493742465973
+item: 2	batch: 1	error: 2.446568489074707
+item: 3	batch: 0	error: 3.3099796772003174
+item: 3	batch: 1	error: 0.428620845079422
+item: 4	batch: 0	error: 0.0006673201569356024
+item: 4	batch: 1	error: 0.0008364878594875336
+item: 5	batch: 0	error: 0.04016317054629326
+item: 5	batch: 1	error: 0.0005971009377390146
+item: 6	batch: 0	error: 1.5009981393814087
+item: 6	batch: 1	error: 0.3477296829223633
+item: 7	batch: 0	error: 0.00872543454170227
+item: 7	batch: 1	error: 2.0655171871185303
+item: 8	batch: 0	error: 0.9237298369407654
+item: 8	batch: 1	error: 1.5761141777038574
+2019-01-25 00:39:34.117203
+epochs: 150	enums: 120000

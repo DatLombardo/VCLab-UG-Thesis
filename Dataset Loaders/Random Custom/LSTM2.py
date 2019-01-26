@@ -134,8 +134,8 @@ Load in vgg16,
 """
 vgg16 = models.vgg16(pretrained=True).cuda()
 #vgg16 = models.vgg16(pretrained=True)
-customDataloader = CustomDataset.main('segments/segments200.csv') #for test dataloader
-testDataloader = CustomDataset.main('segments/testSegments1.csv') #for test dataloader
+customDataloader = CustomDataset.main('segments/segments400.csv') #for test dataloader
+testDataloader = CustomDataset.main('segments/testSegments2.csv') #for test dataloader
 
 
 for param in vgg16.parameters():
@@ -157,7 +157,7 @@ optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
 enums = 0
 num_epochs = 500
 
-with open('results/table1.tsv', "w") as tsv_file:
+with open('results/table2.tsv', "w") as tsv_file:
     writer = csv.writer(tsv_file, delimiter='\t')
     time = datetime.datetime.now()
     writer.writerow([str(time)])
