@@ -10,6 +10,7 @@ def main(filename, path, size):
     from torch.utils.data import Dataset, DataLoader
     import readDataFiles as readDataFiles
     import ast
+    import random
 
     class ImportanceScore(Dataset):
         def __init__(self, data, transforms=None):
@@ -37,6 +38,7 @@ def main(filename, path, size):
     if size == "All":
         dataset = ImportanceScore(segmentData)
     else:
+        random.shuffle(segmentData)
         dataset = ImportanceScore(segmentData[0:size])
     print("Loaded dataset")
 
