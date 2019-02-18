@@ -29,6 +29,6 @@ def main():
     if newData:
         ParseVideo.main(width, height, CF, newMean)
 
-    ParseSegments.main(k)
+    ParseSegments.main(k, "scores/shotScoresFull.csv")
 if __name__ == "__main__":
     main()

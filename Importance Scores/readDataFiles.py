@@ -20,6 +20,19 @@ def readVideoNamesCSV(filename):
               videoName.append(data[0])
       return videoName
 
+def readVideoDataCSV(filename):
+      '''
+      1-by-N(videos)
+      '''
+      videoData = []
+      with open(filename) as infile:
+          for line in infile:
+              line = line.replace('"', '')
+              line = line.replace('\n','')
+              data = line.split(",")
+              videoData.append(data)
+      return videoData
+
 def readScores(filename):
       '''
       1-by-N(videos)

@@ -64,6 +64,8 @@ def removeBadFrames(video, scores, w, h, mean, cf):
     newScores = []
     while cap.isOpened():
         ret, currFrame = cap.read()
+        if count == 3001:
+            break
         if ret:
             if (includeFrame == cf):
                 currFrame = cv2.resize(currFrame, (w, h))[...,[2,1,0]]
@@ -106,7 +108,6 @@ def removeBadFrames(video, scores, w, h, mean, cf):
 
     cap.release()
     print("Final Length of: ", video, len(newVid), len(newScores))
-
     return newVid, np.array(newScores, dtype=float)
 
 
@@ -129,8 +130,8 @@ def main(desired_w, desired_h, CF, newMean):
     vgg16_fcn.cuda()
 
     #Reads in list of potential videos to make custom segments with.
-    vidNames, vidScores = readDataFiles.readScores('shotScores.csv')
-
+    vidNames, vidScores = readDataFiles.readScores('scores/shotScores.csv')
+    print("~~ Generating Mean Image ~~")
     if newMean:
         total, count = getMean(vidNames, desired_w, desired_h)
         mean = np.divide(total, count)
@@ -143,6 +144,8 @@ def main(desired_w, desired_h, CF, newMean):
     for i in range(len(vidNames)):
         parsedVid, parsedScore = removeBadFrames(vidNames[i], vidScores[i],
                                     desired_w, desired_h, mean, CF)
+        #Divide by 5 to normalize values between 0 and 1 instead of 1
+        normalizedScore = np.divide(parsedScore, 5.0)
 
         print("~~~ Extracting Features for " + vidNames[i] + " ~~~")
         #parsedList.append(parseCF(parsedVid, parsedScore, CF))
@@ -157,7 +160,7 @@ def main(desired_w, desired_h, CF, newMean):
                                                 .unsqueeze(0).float().cuda())
         print("Saving..")
         #Save VGG16 output tensors with ground truth for training
-        torch.save([vggOut, parsedScore] ,'tensors/'+vidNames[i]+'.pt')
+        torch.save([vggOut, normalizedScore] ,'tensors/'+vidNames[i]+'.pt')
         print("Done")
         #Uncomment if you wish to view the resulting video frames
         #torch.save([parsedVid, parsedScore], 'tensors/'+vidNames[i]+'Vid.pt')
