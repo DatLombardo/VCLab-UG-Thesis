@@ -130,7 +130,7 @@ def main(desired_w, desired_h, CF, newMean):
     vgg16_fcn.cuda()
 
     #Reads in list of potential videos to make custom segments with.
-    vidNames, vidScores = readDataFiles.readScores('scores/shotScores.csv')
+    vidNames, vidScores = readDataFiles.readScores('scores/shotScoresFull.csv')
     print("~~ Generating Mean Image ~~")
     if newMean:
         total, count = getMean(vidNames, desired_w, desired_h)
