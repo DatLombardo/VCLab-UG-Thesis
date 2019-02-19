@@ -3,6 +3,8 @@ import numpy as np
 import torchvision.models as models
 import ImportanceScores as ISDataloader
 import torch.nn as nn
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from torch.autograd import Variable
 from torch.nn.parameter import Parameter
@@ -47,7 +49,7 @@ def accuracy(x,y):
         xy = 0
     return xy
 
-ISLoader = ISDataloader.main('vidData/videoDataGA4.csv', 'tensorsGA/', size) #for train dataloader
+ISLoader = ISDataloader.main('vidData/videoDataGA4.csv', 'tensors/', size) #for train dataloader
 testLoader = ISDataloader.main('vidData/videoDataFull4.csv', 'tensors/', tSize) #for test dataloader
 
 
@@ -56,7 +58,7 @@ model = MyModel(512*7*7, 256, k).cuda()
 
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
 loss_fn = torch.nn.MSELoss(reduction='sum').cuda()
-with open('results/'+str(size)+'-4.tsv', "w+") as tsv_file:
+with open('results/'+str(size)+'-'+str(k)+'.tsv', "w+") as tsv_file:
     writer = csv.writer(tsv_file, delimiter='\t')
     time = datetime.datetime.now()
     writer.writerow([str(time)])
@@ -76,7 +78,7 @@ with open('results/'+str(size)+'-4.tsv', "w+") as tsv_file:
             out = model(x)
             loss_fn = torch.nn.MSELoss(reduction='sum').cuda()
             error = loss_fn(out.flatten(), y).cuda()
-            if epoch % 25 == 0:
+            if epoch % 50 == 0:
                 index = random.randint(0,3)
                 errors.append(error.item())
                 gty.append(y[index].detach().cpu().item())
@@ -86,8 +88,10 @@ with open('results/'+str(size)+'-4.tsv', "w+") as tsv_file:
             enums += 1
             error.backward()
             optimizer.step()
-        if epoch % 25 == 0:
+        if epoch % 50 == 0:
             print("epoch:" + str(epoch))
+            writer.writerow(["Ground Truth: " + str(gty)])
+            writer.writerow(["Generated: " + str(geny)])
             writer.writerow(["Epoch: " + str(epoch) + " Average Accuracy: "+  str(accuracy(gty, geny))])
             ax = plt.subplot(111)
             plt.scatter(gtx, gty, c='b', marker='x', label='gt')
@@ -96,7 +100,9 @@ with open('results/'+str(size)+'-4.tsv', "w+") as tsv_file:
             plt.xlabel("Item Number")
             plt.ylabel("Score")
             plt.ylim(0.0,1.0)
-            plt.savefig("Images/"+str(size)+ "-epoch-"+ str(epoch)+"-test.jpg")
+            plt.savefig("Images/"+str(size)+ "-epoch-"+ str(epoch)+"-train.jpg")
+            plt.cla()
+
             #plt.show()
 
 
@@ -135,4 +141,6 @@ with open('results/'+str(size)+'-4.tsv', "w+") as tsv_file:
     plt.ylabel("Score")
     plt.ylim(0.0,1.0)
     plt.savefig("Images/"+str(size)+"-test.jpg")
+    plt.cla()
+
     #plt.show()
