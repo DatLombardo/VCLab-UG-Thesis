@@ -9,7 +9,6 @@ import ParseSegments as ParseSegments
 def main():
 
     newData = False
-    newSegments = True
     """
     desired_w/h - Desired dimensions for VGG16 / Model
     CF - Number of frames skipped between subsequent frames
@@ -19,8 +18,8 @@ def main():
     width = 224
     height = 224
     CF = 5
-    newMean = False  #Needs to be True if using new data
-    k = 32
+    newMean = False #Needs to be True if using new data
+    k = 64
 
     """
     Create video tensors of each video in the shotScores.csv
@@ -29,7 +28,7 @@ def main():
     """
     if newData:
         ParseVideo.main(width, height, CF, newMean)
-    if newSegments:
-        ParseSegments.main(k, "scores/shotScoresFull.csv")
+
+    ParseSegments.main(k, "scores/shotScoresFull.csv")
 if __name__ == "__main__":
     main()

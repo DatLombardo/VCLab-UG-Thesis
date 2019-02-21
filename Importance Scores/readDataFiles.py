@@ -38,6 +38,7 @@ def readScores(filename):
       1-by-N(videos)
       '''
       videoData = []
+      videoCategory = []
       videoScores = []
       with open(filename) as infile:
           for line in infile:
@@ -45,26 +46,9 @@ def readScores(filename):
               line = line.replace('\n','')
               data = line.split(",")
               videoData.append(data[0])
+              videoCategory.append(data[1])
               videoScores.append(data[2:])
-      return videoData, videoScores
-
-def readCatScores(filename):
-      '''
-      1-by-N(videos)
-      '''
-      videoData = []
-      videoCat = []
-      videoScores = []
-      with open(filename) as infile:
-          for line in infile:
-              line = line.replace('"', '')
-              line = line.replace('\n','')
-              data = line.split(",")
-              videoData.append(data[0])
-              videoCat.append(data[1])
-              videoScores.append(data[2:])
-      return videoData, videoCat, videoScores
-
+      return videoData, videoCategory, videoScores
 
 def darkLabel(frame):
     #Normalize to 0.0 - 1.0

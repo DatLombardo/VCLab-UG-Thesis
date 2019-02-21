@@ -51,6 +51,7 @@ RGB image saving lots of training time.
 * **video/** : Contains raw .mp4 files of dataset.
 * **results/** : Contains the written .tsv files of the training cycles.
 * **Images/** : Contains .jpg images of the matplotlib figures generated.
+* **weights/** : Contains saved weights from each run of the model.
 
 If you do not wish to read the whole specification of the code, and already
 have the data processed, simply run: **python3 LSTM.py** to execute the model.
