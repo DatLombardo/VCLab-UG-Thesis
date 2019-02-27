@@ -18,9 +18,9 @@ import csv
 import datetime
 import random
 
-k = 16
+k = 32
 trainRatio = 0.8
-batchSize = 16
+batchSize = 128
 threshold = 0.05
 
 class MyModel(nn.Module):
@@ -40,8 +40,7 @@ class MyModel(nn.Module):
         #x = 4 x k x (512 x 7 x 7) <- Needs to be flattened
 
         #4 x k x 25088
-        xFlat = x.view((self.k,batchSize,-1))
-
+        xFlat = x.view((self.k,len(x),-1))
         #Output from LSTM 4 x 3 x 256
         lstmOut, _ = self.lstm(xFlat)
         #print(lstmOut.shape)
@@ -93,14 +92,14 @@ with open('results/b-'+str(batchSize)+ '-k-'+ str(k)+'-t-'+str(threshold)+'.tsv'
             loss_fn = torch.nn.MSELoss(reduction='sum').cuda()
             error = loss_fn(out.flatten(), y).cuda()
             if epoch % 10 == 0:
-                index = random.randint(0,batchSize-1)
                 avgLoss += error.item()
-                gty.append(y[index].detach().cpu().item())
-                geny.append(out[index].detach().cpu().item())
+                gty.append(y[0].detach().cpu().item())
+                geny.append(out[0].detach().cpu().item())
                 count += 1
             enums += 1
             error.backward()
             optimizer.step()
+
 
         if epoch % 10 == 0:
             #Recording Training Results
@@ -132,12 +131,12 @@ with open('results/b-'+str(batchSize)+ '-k-'+ str(k)+'-t-'+str(threshold)+'.tsv'
                 out = model(x)
                 loss_fn = torch.nn.MSELoss(reduction='sum').cuda()
                 error = loss_fn(out.flatten(), y).cuda()
-                validgty.append(y.cpu().numpy())
-                validgeny.append(out.detach().flatten().cpu().numpy())
+                validgty.extend(y.cpu().numpy())
+                validgeny.extend(out.detach().flatten().cpu().numpy())
                 validLoss += error.item()
                 validCount += 1
 
-            validLoss = validLoss / validCount
+            validLoss = validLoss / validCount          
             writer.writerow(['Epoch: ' + str(epoch) + ' Average Validation Accuracy: '+  str(accuracy(validgty, validgeny))])
             writer.writerow(['Average Validation Loss: ' + str(validLoss)])
 
@@ -161,8 +160,8 @@ with open('results/b-'+str(batchSize)+ '-k-'+ str(k)+'-t-'+str(threshold)+'.tsv'
             error = loss_fn(out.flatten(), y).cuda()
             #print("Actual: ", y.cpu().numpy())
             #print("Generated: ",out.detach().flatten().cpu().numpy())
-            gty.append(y.cpu().numpy())
-            geny.append(out.detach().flatten().cpu().numpy())
+            gty.extend(y.cpu().numpy())
+            geny.extend(out.detach().flatten().cpu().numpy())
 
         ax = plt.subplot(111)
         gty = np.array(gty).flatten()
