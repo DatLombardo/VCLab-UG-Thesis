@@ -21,7 +21,7 @@ import random
 k = 16
 trainRatio = 0.8
 batchSize = 16
-threshold = 0.05
+threshold = 0.1
 
 class MyModel(nn.Module):
     def __init__(self, inputDim, outputDim, k):
@@ -43,22 +43,31 @@ class MyModel(nn.Module):
         xFlat = x.view((self.k,len(x),-1))
         #Output from LSTM 4 x 3 x 256
         lstmOut, _ = self.lstm(xFlat)
+        #print(lstmOut.shape)
         lastOut = lstmOut[-1]
 
         sigOut = self.sigmoid(self.fc(lastOut))
         return sigOut
-
+"""
 def accuracy(x,y):
-    #xy = 1 - (sum(abs(subtract(x,y)) > threshold)/len(x))
+    xy = 1 - (np.sum(abs(np.subtract(x,y)) > threshold)/len(x))
+    if xy <= 0:
+        xy = 0
+    return xy
+"""
+def accuracy(x,y):
     sum = torch.tensor(torch.sum(torch.abs(torch.sub(torch.tensor(x),torch.tensor(y))) > threshold), dtype=torch.float32)
     diff = torch.div(sum,torch.tensor(len(x), dtype=torch.float32))
     xy = torch.tensor(torch.sub(torch.tensor(1,dtype=torch.float32), diff), dtype=torch.float32)
+    print(xy)
     if xy <= 0:
         xy = 0
     return xy
 
 ISLoader, ValidLoader, TestLoader, category, tNames = ISDataloader.main('vidData/videoData16.csv', 'tensors/', trainRatio, batchSize)
 
+#print(len(ISLoader.dataset))
+#print(len(TestLoader.dataset))
 model = MyModel(512*7*7, 256, k).cuda()
 model.train()
 
@@ -78,7 +87,7 @@ with open('results/b-'+str(batchSize)+ '-k-'+ str(k)+'-t-'+str(threshold)+'.tsv'
     writer.writerow([str(time)])
     writer.writerow(['~~ Training / Validation ~~'])
     enums = 0
-    num_epochs = 50
+    num_epochs = 1
     for epoch in range(num_epochs):
         gty = []
         geny = []
@@ -86,27 +95,45 @@ with open('results/b-'+str(batchSize)+ '-k-'+ str(k)+'-t-'+str(threshold)+'.tsv'
         avgLoss = 0
         #Training Loop
         for batch_i, batch_data in enumerate(ISLoader):
+            #REMOVE DIS
+            if batch_i == 5:
+                break
             x = Variable(torch.tensor(batch_data['video'], dtype=torch.float32)).cuda()
             y = Variable(torch.tensor(batch_data['score'], dtype=torch.float32)).cuda()
             optimizer.zero_grad()
             out = model(x)
+            #loss_fn = torch.nn.MSELoss(reduction='sum').cuda()
             error = loss_fn(out.flatten(), y)
             error.backward()
             optimizer.step()
-            if (epoch % 10 == 0) or (epoch == 49):
+            if epoch % 10 == 0:
                 # Collect loss
                 avgLoss += error.item()
                 count += 1
+                #gty.append(y[0].detach().cpu().item())
+                #geny.append(out[0].detach().cpu().item())
                 gty.extend(y.detach())
                 geny.extend(out.detach())
             enums += 1
 
-        if (epoch % 10 == 0) or (epoch == 49):
+        if epoch % 10 == 0:
             #Recording Training Results
             print('epoch:' + str(epoch))
             avgLoss = avgLoss / count
             writer.writerow(['Epoch: ' + str(epoch) + ' Average Training Accuracy: '+  str(accuracy(gty, geny))])
             writer.writerow(['Average Training Loss: ' + str(avgLoss)])
+            """
+            ax = plt.subplot(111)
+            plt.scatter(range(len(gty)), gty, c='b', marker='x', label='gt')
+            plt.scatter(range(len(geny)), geny, c='r', marker='|', label='pred')
+            ax.legend(loc='best')
+            plt.xlabel('Item Number')
+            plt.ylabel('Score')
+            plt.ylim(0.0,1.0)
+            plt.savefig('Images/b-'+str(batchSize)+ '-k-'+ str(k)+'-t-'+str(threshold)+'-Train.jpg')
+            plt.cla()
+            #plt.show()
+            """
 
             #Recording Validation Results
             validLoss = 0
@@ -116,12 +143,17 @@ with open('results/b-'+str(batchSize)+ '-k-'+ str(k)+'-t-'+str(threshold)+'.tsv'
             model.eval()
             #Validation Loop
             for batch_i, valid_data in enumerate(ValidLoader):
+                #REMOVE DIS
+                if batch_i == 3:
+                    break
                 x = Variable(torch.tensor(valid_data['video'], dtype=torch.float32)).cuda()
                 y = Variable(torch.tensor(valid_data['score'], dtype=torch.float32)).cuda()
-
+                #optimizer.zero_grad()
                 out = model(x)
+                #loss_fn = torch.nn.MSELoss(reduction='sum').cuda()
                 error = loss_fn(out.flatten(), y)
-
+                #validgty.extend(y.cpu().numpy())
+                #validgeny.extend(out.detach().flatten().cpu().numpy())
                 validgty.extend(y)
                 validgeny.extend(out.detach().flatten())
                 validLoss += error.item()
@@ -143,20 +175,39 @@ with open('results/b-'+str(batchSize)+ '-k-'+ str(k)+'-t-'+str(threshold)+'.tsv'
         geny = []
         gty = []
         for batch_i, test_data in enumerate(TestLoader[i]):
+            #REMOVE DIS
+            if batch_i == 1:
+                break
             x = Variable(torch.tensor(test_data['video'], dtype=torch.float32)).cuda()
             y = Variable(torch.tensor(test_data['score'], dtype=torch.float32)).cuda()
-
+            #optimizer.zero_grad()
             out = model(x)
+            #loss_fn = torch.nn.MSELoss(reduction='sum').cuda()
             error = loss_fn(out.flatten(), y)
-
+            #print("Actual: ", y.cpu().numpy())
+            #print("Generated: ",out.detach().flatten().cpu().numpy())
             gty.extend(y.detach())
             geny.extend(out.detach().flatten())
         gty = np.array(gty).flatten()
         geny = np.array(geny).flatten()
-
+        #print(gty)
+        #print(geny)
+        #print("Accuracy: " + str(accuracy(gty, geny)))
         writer.writerow(['Video: ' + tNames[i], "Size: " + str(len(TestLoader[i].dataset))])
         writer.writerow(['Ground Truth: ' + str(gty)])
         writer.writerow(['Generated: ' + str(geny)])
         totalAvg += accuracy(gty, geny)
         writer.writerow(['Accuracy: ' +  str(accuracy(gty, geny))])
     writer.writerow(['Average Accuracy: ' +  str(totalAvg / len(TestLoader))])
+    """
+    ax = plt.subplot(111)
+    plt.scatter(range(len(gty)), gty, c='b', marker='x', label='gt')
+    plt.scatter(range(len(geny)), geny, c='r', marker='|', label='pred')
+    ax.legend(loc='best')
+    plt.xlabel("Item Number")
+    plt.ylabel("Score")
+    plt.ylim(0.0,1.0)
+    plt.savefig("Images/"+str(size)+"-Test.jpg")
+    plt.cla()
+    #plt.show()
+    """
