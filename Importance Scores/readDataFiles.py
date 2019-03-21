@@ -50,6 +50,21 @@ def readScores(filename):
               videoScores.append(data[2:])
       return videoData, videoCategory, videoScores
 
+def readScoresCSV(filename):
+      '''
+      1-by-N(videos)
+      '''
+      videoData = []
+      videoScores = []
+      with open(filename) as infile:
+          for line in infile:
+              line = line.replace('"', '')
+              line = line.replace('\n','')
+              data = line.split(",")
+              videoData.append(data[0])
+              videoScores.append(data[2:])
+      return videoData, videoScores
+
 def darkLabel(frame):
     #Normalize to 0.0 - 1.0
     image = frame / 255.0

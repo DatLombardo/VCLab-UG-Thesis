@@ -16,12 +16,12 @@ def main(k, filename):
     segments = []
     for i in range(len(vidNames)):
         #[0] = frames, [1] = scores
-        videoData = torch.load('tensors/'+vidNames[i]+'.pt')
+        videoData = torch.load('tensors1/'+vidNames[i]+'.pt')
         for frameNum in range(k,len(videoData[0])):
             segments.append([vidNames[i], vidCat[i], frameNum-k, frameNum])
 
     print("~~ Writing Segment Names to videoData.csv ~~")
-    with open('vidData/videoData'+str(k)+'.csv', "w+") as csv_file:
+    with open('vidData/videoDataOne'+str(k)+'.csv', "w+") as csv_file:
         csv_file.truncate()
         writer = csv.writer(csv_file)
         for elem in segments:

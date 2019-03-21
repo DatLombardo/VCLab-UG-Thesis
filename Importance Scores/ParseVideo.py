@@ -130,16 +130,16 @@ def main(desired_w, desired_h, CF, newMean):
     vgg16_fcn.cuda()
 
     #Reads in list of potential videos to make custom segments with.
-    vidNames, vidScores = readDataFiles.readScores('scores/shotScoresFull.csv')
+    vidNames, vidScores = readDataFiles.readScoresCSV('scores/OneAnnot.csv')
     print("~~ Generating Mean Image ~~")
     if newMean:
         total, count = getMean(vidNames, desired_w, desired_h)
         mean = np.divide(total, count)
-        torch.save(mean, "mean.pt")
-        plt.imshow(mean)
-        plt.show()
+        torch.save(mean, "mean1.pt")
+        #plt.imshow(mean)
+        #plt.show()
     else:
-        mean = torch.load("mean.pt")
+        mean = torch.load("mean1.pt")
 
     for i in range(len(vidNames)):
         parsedVid, parsedScore = removeBadFrames(vidNames[i], vidScores[i],
@@ -160,7 +160,7 @@ def main(desired_w, desired_h, CF, newMean):
                                                 .unsqueeze(0).float().cuda())
         print("Saving..")
         #Save VGG16 output tensors with ground truth for training
-        torch.save([vggOut, normalizedScore] ,'tensors/'+vidNames[i]+'.pt')
+        torch.save([vggOut, normalizedScore] ,'tensors1/'+vidNames[i]+'.pt')
         print("Done")
         #Uncomment if you wish to view the resulting video frames
         #torch.save([parsedVid, parsedScore], 'tensors/'+vidNames[i]+'Vid.pt')
